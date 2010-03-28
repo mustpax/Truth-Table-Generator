@@ -47,7 +47,7 @@ function displayAST(ast) {
         return ret;
     };
 
-    $('#ast').empty().append('<h1>AST</h1>', elemGen(ast));
+    $('#ast').empty().append('<h1>Abstract Syntax Tree</h1>', elemGen(ast));
 }
 
 function handleInput(val) {
