@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instant symbolic logic cheat sheet</title>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> -->
+    <script src="jquery-1.3.2-vsdoc2.js"></script>
+    <script src="truth.js"></script>
+</head>
+
+<body>
+    <h1>Enter a logic expression</h1>
+        <input type="text" id="expr">
+        <input type="button" id="apply" value="Apply">
+    <h1>Truth Table</h1>
+        <div id="output">
+            <div id="nothing">Nothing yet.</div>
+            <div id="combo"></div>
+            <div id="ast"></div>
+            <div id="sym"></div>
+        </div>
+    <h1>Recognized operators</h1>
+    <ul>
+        <li>
+            <strong>~</strong>
+            not
+        </li>
+        <li>
+            <strong>!</strong>
+            not
+        </li>
+        <li>
+            <strong>&</strong>
+            and
+        </li>
+        <li>
+            <strong>^</strong>
+            xor
+        </li>
+    </ul>
+</body>
+</html>
