@@ -276,5 +276,3 @@ function debug() {
         console.log.apply(console, arguments);
     }
 }
-
-$(document).ready(main);
