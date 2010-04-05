@@ -4,12 +4,12 @@ test('Truth Combos', function() {
     for (var i = 0; i < symCount; i ++) {
         symbols['sym' + i] = true;
     }
-    var combos = truthCombos(symbols);
+    var combos = truth.truthCombos(symbols);
     ok(combos.length === Math.pow(2, symCount), 'Check number of truth combos.');
 });
 
 function testExpr(expr, ast, sym) {
-    var result = parse(tokenize(expr));
+    var result = truth.parse(truth.tokenize(expr));
     var actualAst = result[0];
     var actualSym = result[1];
     same(actualAst, ast, 'Verify expression ' + expr);
