@@ -1,5 +1,5 @@
 var SYMBOL = /[a-zA-Z]\w*/;
-var DEBUG = false;
+var DEBUG = true;
 
 function truthCombos(symbols) {
     if (! symbols) {
@@ -171,6 +171,7 @@ function main() {
  * Build an abstract syntax tree out of the given stream of tokens.
  */
 function parse(tokens) {
+    debug('parse', tokens);
     if ((! tokens) || (tokens.length === 0)) {
         return [];
     }
@@ -178,11 +179,6 @@ function parse(tokens) {
     var pos = 0;
     var self = this;
     var symbols = {};
-
-    var log = function() {
-        return;
-        debug.apply(console, arguments);
-    }
 
     var getCurToken = function() {
         return tokens[pos];
@@ -192,6 +188,7 @@ function parse(tokens) {
      * Consume the next token and add it to the symbol table.
      */
     var consumeSymbol = function() {
+        debug('consumeSymbol');
         var symbol = consumeToken();
         symbols[symbol] = true;
         return symbol;
@@ -199,6 +196,7 @@ function parse(tokens) {
 
     var consumeToken = function(expected) {
         var curTok = getCurToken();
+        debug('consumeToken', curTok);
         if (expected && (curTok !== expected)) {
             throw new SyntaxError('Did not encounter expected token. Expected: "' +
                                   expected + '" Actual: "' + curTok + '".');
@@ -209,21 +207,27 @@ function parse(tokens) {
     };
 
     var expr = function() {
-        log('expr', tokens, pos);
+        debug('expr', tokens, pos);
         if (getCurToken() == '!') {
             return [consumeToken(), subExpr()];
         }
 
         var a1 = subExpr();
-        if (getCurToken() in {'&':true, '|':true, '^':true}) {
+        if (isBinaryOperator(getCurToken())) {
             return [consumeToken(), a1, subExpr()];
         }
 
         return a1;
     };
 
+    var isBinaryOperator = function(tok) {
+        return ((tok === '&') ||
+                (tok === '|') ||
+                (tok === '^'));
+    };
+
     var subExpr = function() {
-        log('subExpr', tokens, pos);
+        debug('subExpr', tokens, pos);
         if (getCurToken() === '(') {
             consumeToken('(');
             var ret = expr();
