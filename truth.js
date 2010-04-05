@@ -1,5 +1,5 @@
 var SYMBOL = /[a-zA-Z]\w*/;
-var DEBUG = true;
+var DEBUG = false;
 
 function truthCombos(symbols) {
     if (! symbols) {

@@ -21,7 +21,7 @@ test('Parser', function() {
     testExpr('a&b', ['&', 'a', 'b']);
     testExpr('a & b', ['&', 'a', 'b']);
     testExpr('a & (((((b)))))', ['&', 'a', 'b']);
-    testExpr('verylongsymbolname1 & ((b))', ['&', 'verylongsymbolname1', 'b']);
+    testExpr('verylong101symbolname1 & ((b))', ['&', 'verylong101symbolname1', 'b']);
     testExpr('b & (b & (b & (b & b)))', ['&', 'b', 
                                          ['&', 'b',
                                          ['&', 'b',
