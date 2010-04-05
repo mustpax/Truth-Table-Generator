@@ -12,17 +12,19 @@ function testExpr(expr, ast, sym) {
     var result = parse(tokenize(expr));
     var actualAst = result[0];
     var actualSym = result[1];
-    same(ast, actualAst, 'Verify expression ' + expr);
+    same(actualAst, ast, 'Verify expression ' + expr);
 }
 
 test('Parser', function() {
+    testExpr('singletoken', 'singletoken');
+    testExpr('(((singletoken)))', 'singletoken');
     testExpr('a&b', ['&', 'a', 'b']);
     testExpr('a & b', ['&', 'a', 'b']);
     testExpr('a & (((((b)))))', ['&', 'a', 'b']);
     testExpr('verylongsymbolname1 & ((b))', ['&', 'verylongsymbolname1', 'b']);
     testExpr('b & (b & (b & (b & b)))', ['&', 'b', 
-                                         ['&', 'b'
-                                         ['&', 'b'
+                                         ['&', 'b',
+                                         ['&', 'b',
                                          ['&', 'b', 'b']]]]);
 });
 
