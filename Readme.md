@@ -5,4 +5,4 @@ This simple JavaScript application generates [truth tables][tt] for arbitrary bo
 # License
 Licensed under the MIT license. See License.txt for details.
 
-[tt]: <http://en.wikipedia.org/wiki/Truth_table> "Wikipedia article on Truth Tables"
+[tt]: http://en.wikipedia.org/wiki/Truth_table "Wikipedia article on Truth Tables"
