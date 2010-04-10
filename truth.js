@@ -1,7 +1,7 @@
 window.truth = function() {
     var that = {};
     var SYMBOL = /[a-zA-Z]\w*/;
-    var DEBUG = false;
+    var DEBUG = true;
 
     var truthCombos = function(symbols) {
         if (! symbols) {
@@ -174,15 +174,10 @@ window.truth = function() {
     /**
      * Build an abstract syntax tree out of the given stream of tokens.
      */
-    var parse = function(tokens) {
-        debug('parse', tokens);
-        if ((! tokens) || (tokens.length === 0)) {
-            return [];
-        }
-
-        var pos = 0;
-        var self = this;
-        var symbols = {};
+    var parse = function() {
+        var pos;
+        var symbols;
+        var tokens;
 
         var getCurToken = function() {
             return tokens[pos];
@@ -200,7 +195,7 @@ window.truth = function() {
 
         var consumeToken = function(expected) {
             var curTok = getCurToken();
-            debug('consumeToken', curTok);
+            debug('consumeToken', curTok, pos);
             if (expected && (curTok !== expected)) {
                 throw new SyntaxError('Did not encounter expected token. Expected: "' +
                                       expected + '" Actual: "' + curTok + '".');
@@ -245,14 +240,27 @@ window.truth = function() {
             return consumeSymbol();
         };
         
-        var ret = expr();
-        if (pos < tokens.length) {
-            throw new SyntaxError('Could not consume all tokens. Remaining tokens: ' + 
-                tokens.slice(pos, tokens.length));
-        }
+        return function(tok) {
+            debug('parse', tok);
+            if ((! tok) || (tok.length === 0)) {
+                return [];
+            }
 
-        return [ret, symbols];
-    };
+            tokens = tok;
+            pos = 0;
+            symbols = {};
+            var ret = expr();
+            if (pos < tokens.length) {
+                debug(tokens);
+                debug(pos);
+                debug(tokens[pos]);
+                throw new SyntaxError('Could not consume all tokens. '
+                    + 'Remaining tokens: ' + tokens.slice(pos, tokens.length));
+            }
+
+            return [ret, symbols];
+        }
+    }();
     that.parse = parse;
 
 
