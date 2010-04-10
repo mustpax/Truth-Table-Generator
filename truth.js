@@ -148,6 +148,7 @@ window.truth = function() {
             throw new SyntaxError('Unrecognized operator: ' + ast[0]);
         }
     }
+    that.evalExpr = evalExpr;
 
     var out = function(val) {
         $('#output').text(val.toString());

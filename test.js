@@ -28,6 +28,21 @@ test('Parser', function() {
                                          ['&', 'b', 'b']]]]);
 });
 
-test('Tokenizer', function() {
+test('evalExpr', function() {
+    var expr = ['&', 'a', 'b'];
+    var bindings = {'a' : true,
+                    'b' : false};
+    equals(truth.evalExpr(expr, bindings), false);
+    bindings = {'a' : true,
+                'b' : true};
+    equals(truth.evalExpr(expr, bindings), true);
+
+    expr = ['^', 'a', 'b'];
+    bindings = {'a' : true,
+                'b' : false};
+    equals(truth.evalExpr(expr, bindings), true);
+    bindings = {'a' : true,
+                'b' : true};
+    equals(truth.evalExpr(expr, bindings), false);
 });
 
