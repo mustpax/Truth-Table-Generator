@@ -168,7 +168,8 @@ window.truth = function() {
             handleInput($('#expr').val());
         });
 
-        handleInput('!(a & (b | a))');
+        $('#expr').val('!(a & (b | a))');
+        $('#apply').click();
     }
     that.main = main;
 
