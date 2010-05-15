@@ -26,6 +26,14 @@ test('Parser', function() {
                                          ['&', 'b',
                                          ['&', 'b',
                                          ['&', 'b', 'b']]]]);
+    testExpr('b & (b & ((!b) & (b & b)))', ['&', 'b', 
+                                         ['&', 'b',
+                                         ['&', ['!', 'b'],
+                                         ['&', 'b', 'b']]]]);
+    testExpr('!(a)', ['!', 'a']);
+    testExpr('!a', ['!', 'a']);
+    testExpr('(!a)', ['!', 'a']);
+    testExpr('(!((a)))', ['!', 'a']);
 });
 
 test('evalExpr', function() {
