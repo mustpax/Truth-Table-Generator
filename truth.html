@@ -4,38 +4,47 @@
     <title>Instant symbolic logic cheat sheet</title>
     <script src="jquery-1.4.2.js"></script>
     <script src="truth.js"></script>
+    <link rel="stylesheet" href="truth.css" type="text/css" media="screen" />
 </head>
 
 <body>
-    <h1>Enter a logic expression</h1>
+    <div id="guide">
+        <h1>Recognized operators</h1>
+        <ul>
+            <li>
+                <strong>~</strong>
+                not
+            </li>
+            <li>
+                <strong>!</strong>
+                not
+            </li>
+            <li>
+                <strong>&amp;</strong>
+                and
+            </li>
+            <li>
+                <strong>|</strong>
+                or
+            </li>
+            <li>
+                <strong>^</strong>
+                xor
+        </ul>
+    </div>
+    <div id="controls">
+        <h1>Enter a logic expression</h1>
         <input type="text" id="expr">
         <input type="button" id="apply" value="Apply">
-    <h1>Truth Table</h1>
+
+        <h1>Truth Table</h1>
         <div id="output">
             <div id="nothing">Nothing yet.</div>
             <div id="combo"></div>
             <div id="ast"></div>
             <div id="sym"></div>
         </div>
-    <h1>Recognized operators</h1>
-    <ul>
-        <li>
-            <strong>~</strong>
-            not
-        </li>
-        <li>
-            <strong>!</strong>
-            not
-        </li>
-        <li>
-            <strong>&amp;</strong>
-            and
-        </li>
-        <li>
-            <strong>^</strong>
-            xor
-        </li>
-    </ul>
+    </div>
     <script>
         $(document).ready(function() { truth.main(); });
     </script>

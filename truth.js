@@ -292,7 +292,7 @@ window.truth = function() {
     that.tokenize = tokenize;
 
     var debug = function() {
-        if (DEBUG) {
+        if (DEBUG && window.console && window.console.log) {
             console.log.apply(console, arguments);
         }
     }
