@@ -1,4 +1,4 @@
-window.truth = function() {
+window.truth = function(window, undefined) {
     var that = {};
     var SYMBOL = /[a-zA-Z]\w*/;
     var DEBUG = true;
@@ -164,12 +164,14 @@ window.truth = function() {
     }
 
     var main = function() {
-        $('#apply').click(function() {
+        debug('the form', $('#theform'));
+        $('#theform').submit(function(e) {
+            e.preventDefault();
             handleInput($('#expr').val());
         });
 
         $('#expr').val('!(a & (b | a))');
-        $('#apply').click();
+        $('#theform').submit();
     }
     that.main = main;
 
@@ -298,4 +300,4 @@ window.truth = function() {
     }
 
     return that;
-}();
+}(window);
