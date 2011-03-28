@@ -1,6 +1,7 @@
 window.truth = function(window, undefined) {
     var that = {};
     var SYMBOL = /[a-zA-Z]\w*/;
+    var WHITESPACE = /^\s*$/;
     var DEBUG = true;
 
     var truthCombos = function(symbols) {
@@ -269,7 +270,7 @@ window.truth = function(window, undefined) {
 
 
     var tokenize = function(str) {
-        if ((! str) || (! str.replace(/\s/g, ''))) {
+        if ((! str) || WHITESPACE.test(str)) {
             return [];
         }
 
