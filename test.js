@@ -54,3 +54,7 @@ test('evalExpr', function() {
     equals(truth.evalExpr(expr, bindings), false);
 });
 
+test('tokenizer', function() {
+    same(truth.tokenize('longsymbol'), ['longsymbol']);
+    same(truth.tokenize('(  longsymbol   | ||'), ['(', 'longsymbol', '|', '|', '|']);
+});
