@@ -1,5 +1,7 @@
-window.truth = function(window, undefined) {
+(function($, window, undefined) {
     var that = {};
+    window.truth = that;
+
     var SYMBOL = /[a-zA-Z]\w*/;
     var WHITESPACE = /^\s*$/;
     var DEBUG = true;
@@ -247,7 +249,7 @@ window.truth = function(window, undefined) {
         
         return function(tok) {
             debug('parse', tok);
-            if ((! tok) || (tok.length === 0)) {
+            if ((! tok) || (! tok.length)) {
                 return [];
             }
 
