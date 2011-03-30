@@ -40,15 +40,15 @@
     that.truthCombos = truthCombos;
 
     var displayAST = function(ast) {
-        var elemGen = function(expr) {
-            debug('displayAST', expr);
-            if (! $.isArray(expr) ) {
-                return $("<li>").text(expr);
+        var elemGen = function(ast) {
+            debug('displayAST', ast);
+            if (! $.isArray(ast) ) {
+                return $("<li>").text(ast);
             }
 
             var ret = $('<ul>');
-            $.each(expr, function(i) {
-                ret.append(elemGen(expr[i]));
+            $.each(ast, function(i, val) {
+                ret.append(elemGen(val));
             });
             return ret;
         };
@@ -154,7 +154,10 @@
     that.evalExpr = evalExpr;
 
     var out = function(val) {
-        $('#output').text(val.toString());
+        $('#nothing').text(val.toString());
+        $('#ast').empty();
+        $('#combo').empty();
+        $('#sym').empty();
     }
 
     var displaySym = function(symbols) {
@@ -281,14 +284,20 @@
             // Remove whitespace from tokens
             ret[i] = ret[i].replace(/\s/g, '');
 
-            if (ret[i].length === 0) {
+            if (! ret[i].length) {
+                // Delete empty element
                 ret.splice(i, 1);
             } else if (! SYMBOL.test(ret[i])) {
                 var arr = [];
+                // For consecutive non-symbol characters,
+                // split each character into individual tokens
                 for (var j = 0; j < ret[i].length; j++) {
-                    arr[j] = ret[i][j];
+                    arr.push(ret[i][j]);
                 }
-                ret.splice.apply(ret, [i, 1].concat(arr));
+
+                // Replace element with all subtokens of
+                // current element
+                Array.prototype.splice.apply(ret, [i, 1].concat(arr));
             }
         }
 
@@ -303,4 +312,4 @@
     }
 
     return that;
-}(window);
+})(jQuery, window);
