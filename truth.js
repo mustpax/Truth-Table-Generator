@@ -170,14 +170,18 @@
     }
 
     var main = function() {
-        debug('the form', $('#theform'));
-        $('#theform').submit(function(e) {
-            e.preventDefault();
-            handleInput($('#expr').val());
+        var self = this;
+        $('#expr').keyup(function() {
+            debug('keyup');
+            var val = $('#expr').val();
+            if (this.lastSearch !== val) {
+                this.lastSearch = val;
+                handleInput($('#expr').val());
+            }
         });
 
         $('#expr').val('!(a & (b | a))');
-        $('#theform').submit();
+        $('#expr').keyup();
     }
     that.main = main;
 
