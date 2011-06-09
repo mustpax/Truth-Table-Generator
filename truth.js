@@ -314,6 +314,4 @@
             console.log.apply(console, arguments);
         }
     }
-
-    return that;
 })(jQuery, window);
