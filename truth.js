@@ -221,7 +221,8 @@
 
         var expr = function() {
             debug('expr', tokens, pos);
-            if (getCurToken() == '!') {
+            if ((getCurToken() == '!') ||
+                (getCurToken() == '~')) {
                 return [consumeToken(), subExpr()];
             }
 

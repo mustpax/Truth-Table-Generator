@@ -33,7 +33,11 @@ test('Parser', function() {
     testExpr('!(a)', ['!', 'a']);
     testExpr('!a', ['!', 'a']);
     testExpr('(!a)', ['!', 'a']);
-    testExpr('(!((a)))', ['!', 'a']);
+    testExpr('!(a)', ['!', 'a']);
+    testExpr('~a', ['~', 'a']);
+    testExpr('(~a)', ['~', 'a']);
+    testExpr('(~((a)))', ['~', 'a']);
+    testExpr('(~((a)))', ['~', 'a']);
 });
 
 test('evalExpr', function() {
@@ -51,6 +55,13 @@ test('evalExpr', function() {
     equals(truth.evalExpr(expr, bindings), true);
     bindings = {'a' : true,
                 'b' : true};
+    equals(truth.evalExpr(expr, bindings), false);
+
+    expr = ['!', 'a'];
+    bindings = {'a' : true};
+    equals(truth.evalExpr(expr, bindings), false);
+
+    expr = ['~', 'a'];
     equals(truth.evalExpr(expr, bindings), false);
 });
 
