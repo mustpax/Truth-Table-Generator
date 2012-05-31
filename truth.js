@@ -217,8 +217,8 @@
 
         function expr() {
             debug('expr', tokens, pos);
-            if ((getCurToken() == '!') ||
-                (getCurToken() == '~')) {
+            if ((getCurToken() === '!') ||
+                (getCurToken() === '~')) {
                 return [consumeToken(), subExpr()];
             }
 
