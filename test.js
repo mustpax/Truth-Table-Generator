@@ -40,6 +40,9 @@ test('Parser', function() {
     testExpr('a & b | c ^ d', ['&', 'a',
                                     ['|', 'b',
                                           ['^', 'c', 'd']]]);
+    testExpr('!a & b | c ^ d', ['!', ['&', 'a',
+                                           ['|', 'b',
+                                                 ['^', 'c', 'd']]]]);
 });
 
 test('evalExpr', function() {
