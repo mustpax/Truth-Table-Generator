@@ -37,7 +37,9 @@ test('Parser', function() {
     testExpr('~a', ['~', 'a']);
     testExpr('(~a)', ['~', 'a']);
     testExpr('(~((a)))', ['~', 'a']);
-    testExpr('(~((a)))', ['~', 'a']);
+    testExpr('a & b | c ^ d', ['&', 'a',
+                                    ['|', 'b',
+                                          ['^', 'c', 'd']]]);
 });
 
 test('evalExpr', function() {

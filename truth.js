@@ -191,7 +191,7 @@
 
         function getCurToken() {
             return tokens[pos];
-        };
+        }
 
         /**
          * Consume the next token and add it to the symbol table.
@@ -201,7 +201,7 @@
             var symbol = consumeToken();
             symbols[symbol] = true;
             return symbol;
-        };
+        }
 
         function consumeToken(expected) {
             var curTok = getCurToken();
@@ -213,22 +213,27 @@
 
             pos++;
             return curTok;
-        };
+        }
 
         function expr() {
             debug('expr', tokens, pos);
             if ((getCurToken() === '!') ||
                 (getCurToken() === '~')) {
-                return [consumeToken(), subExpr()];
+                return [consumeToken(), binaryExpr()];
             }
 
+            return binaryExpr();
+        }
+
+        function binaryExpr() {
             var a1 = subExpr();
             if (isBinaryOperator(getCurToken())) {
-                return [consumeToken(), a1, subExpr()];
+                return [consumeToken(), a1, binaryExpr()];
             }
 
             return a1;
-        };
+        }
+
 
         function isBinaryOperator(tok) {
             return ((tok === '&') ||
@@ -244,11 +249,12 @@
                 consumeToken(')');
                 return ret;
             }
-            
-            if (! SYMBOL.test(getCurToken())) {
-                throw new SyntaxError('Expecting symbol. Invalid symbol name: ' + getCurToken());
+
+            if (SYMBOL.test(getCurToken())) {
+                return consumeSymbol();
             }
-            return consumeSymbol();
+
+            return expr();
         }
         
         return function(tok) {
