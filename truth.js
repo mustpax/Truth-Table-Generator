@@ -176,7 +176,7 @@
             }
         });
 
-        $('#expr').val('!(a & (b | a))');
+        $('#expr').val('!a & (!b) | c ^ d');
         $('#expr').keyup();
     }
     that.main = main;
@@ -226,19 +226,34 @@
         }
 
         function binaryExpr() {
-            var a1 = subExpr();
-            if (isBinaryOperator(getCurToken())) {
-                return [consumeToken(), a1, binaryExpr()];
+            return xorExpr();
+        }
+
+        function xorExpr() {
+            var a1 = orExpr();
+            if (getCurToken() === '^') {
+                return [consumeToken(), a1, xorExpr()];
             }
 
             return a1;
         }
 
+        function orExpr() {
+            var a1 = andExpr();
+            if (getCurToken() === '|') {
+                return [consumeToken(), a1, orExpr()];
+            }
 
-        function isBinaryOperator(tok) {
-            return ((tok === '&') ||
-                    (tok === '|') ||
-                    (tok === '^'));
+            return a1;
+        }
+
+        function andExpr() {
+            var a1 = subExpr();
+            if (getCurToken() === '&') {
+                return [consumeToken(), a1, andExpr()];
+            }
+
+            return a1;
         }
 
         function subExpr() {

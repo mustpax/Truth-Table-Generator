@@ -8,12 +8,18 @@ test('Truth Combos', function() {
     ok(combos.length === Math.pow(2, symCount), 'Check number of truth combos.');
 });
 
-function testExpr(expr, ast, sym) {
+function testExpr(expr, ast) {
     var result = truth.parse(truth.tokenize(expr));
     var actualAst = result[0];
-    var actualSym = result[1];
     same(actualAst, ast, 'Verify expression ' + expr);
 }
+
+function assertSameAst(expr1, expr2) {
+    var ast1 = truth.parse(truth.tokenize(expr1))[0];
+    var ast2 = truth.parse(truth.tokenize(expr2))[0];
+    same(ast1, ast2, 'Expressions do not parse the same expr1: ' + expr1 + ' expr2: ' + expr2);
+}
+
 
 test('Parser', function() {
     testExpr('singletoken', 'singletoken');
@@ -37,12 +43,15 @@ test('Parser', function() {
     testExpr('~a', ['~', 'a']);
     testExpr('(~a)', ['~', 'a']);
     testExpr('(~((a)))', ['~', 'a']);
-    testExpr('a & b | c ^ d', ['&', 'a',
-                                    ['|', 'b',
-                                          ['^', 'c', 'd']]]);
-    testExpr('!a & b | c ^ d', ['!', ['&', 'a',
-                                           ['|', 'b',
-                                                 ['^', 'c', 'd']]]]);
+    testExpr('a & b & c & d', ['&', 'a',
+                                    ['&', 'b',
+                                          ['&', 'c', 'd']]]);
+});
+
+test('Operator precedence', function() {
+    assertSameAst('a & b', 'a & b');
+    assertSameAst('a & b | c', '(a & b) | c');
+    assertSameAst('c | a & b', 'c | (a & b)');
 });
 
 test('evalExpr', function() {
