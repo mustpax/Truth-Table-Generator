@@ -6,7 +6,7 @@
     var WHITESPACE = /^\s*$/;
     var DEBUG = true;
 
-    var truthCombos = function(symbols) {
+    function truthCombos(symbols) {
         if (! symbols) {
             return [{}];
         }
@@ -36,11 +36,11 @@
         });
 
         return ret;
-    };
+    }
     that.truthCombos = truthCombos;
 
-    var displayAST = function(ast) {
-        var elemGen = function(ast) {
+    function displayAST(ast) {
+        function elemGen(ast) {
             debug('displayAST', ast);
             if (! $.isArray(ast) ) {
                 return $("<li>").text(ast);
@@ -51,12 +51,12 @@
                 ret.append(elemGen(val));
             });
             return ret;
-        };
+        }
 
         $('#ast').empty().append('<h1>Abstract Syntax Tree</h1>', elemGen(ast));
     }
 
-    var handleInput = function(val) {
+    function handleInput(val) {
         try {
             $('#nothing').empty();
             var tok = tokenize(val);
@@ -74,7 +74,7 @@
         }
     }
 
-    var displayCombos = function(expression, symbols, ast, combos) {
+    function displayCombos(expression, symbols, ast, combos) {
         $('#combo').empty();
         debug(combos);
 
@@ -104,25 +104,25 @@
         });
     }
 
-    var isBoolean = function(val) {
+    function isBoolean(val) {
         return (val === true) || (val === false);
     }
 
-    var assertBoolean = function(val) {
+    function assertBoolean(val) {
         if (! isBoolean(val)) {
             throw new SyntaxError('Unbound symbol: ' + val);
         }
     }
 
-    var evalExpr = function(ast, bindings) {
-        var evalSym = function(index) {
+    function evalExpr(ast, bindings) {
+        function evalSym(index) {
             if ($.isArray(ast[index])) {
                 return evalExpr(ast[index], bindings);
             }
 
             assertBoolean(bindings[ast[index]]);
             return bindings[ast[index]];
-        };
+        }
 
         if (! ast) {
             throw new SyntaxError('Invalid expression: ' + ast);
@@ -135,32 +135,28 @@
         switch(ast[0]) {
         case '&':
             return evalSym(1) && evalSym(2);
-            break;
         case '^':
             return (evalSym(1) || evalSym(2)) &&
                    (!(evalSym(1) && evalSym(2)));
-            break;
         case '|':
             return evalSym(1) || evalSym(2);
-            break;
         case '!':
         case '~':
             return ! evalSym(1);
-            break;
         default:
             throw new SyntaxError('Unrecognized operator: ' + ast[0]);
         }
     }
     that.evalExpr = evalExpr;
 
-    var out = function(val) {
+    function out(val) {
         $('#nothing').text(val.toString());
         $('#ast').empty();
         $('#combo').empty();
         $('#sym').empty();
     }
 
-    var displaySym = function(symbols) {
+    function displaySym(symbols) {
         var title = $('<h1>Symbols</h1>');
         var symTable = $('<ol/>');
         $.each(symbols, function(sym) {
@@ -169,7 +165,7 @@
         $('#sym').empty().append(title, symTable);
     }
 
-    var main = function() {
+    function main() {
         var self = this;
         $('#expr').keyup(function() {
             debug('keyup');
@@ -193,21 +189,21 @@
         var symbols;
         var tokens;
 
-        var getCurToken = function() {
+        function getCurToken() {
             return tokens[pos];
         };
 
         /**
          * Consume the next token and add it to the symbol table.
          */
-        var consumeSymbol = function() {
+        function consumeSymbol() {
             debug('consumeSymbol');
             var symbol = consumeToken();
             symbols[symbol] = true;
             return symbol;
         };
 
-        var consumeToken = function(expected) {
+        function consumeToken(expected) {
             var curTok = getCurToken();
             debug('consumeToken', curTok, pos);
             if (expected && (curTok !== expected)) {
@@ -219,7 +215,7 @@
             return curTok;
         };
 
-        var expr = function() {
+        function expr() {
             debug('expr', tokens, pos);
             if ((getCurToken() == '!') ||
                 (getCurToken() == '~')) {
@@ -234,13 +230,13 @@
             return a1;
         };
 
-        var isBinaryOperator = function(tok) {
+        function isBinaryOperator(tok) {
             return ((tok === '&') ||
                     (tok === '|') ||
                     (tok === '^'));
-        };
+        }
 
-        var subExpr = function() {
+        function subExpr() {
             debug('subExpr', tokens, pos);
             if (getCurToken() === '(') {
                 consumeToken('(');
@@ -253,7 +249,7 @@
                 throw new SyntaxError('Expecting symbol. Invalid symbol name: ' + getCurToken());
             }
             return consumeSymbol();
-        };
+        }
         
         return function(tok) {
             debug('parse', tok);
@@ -269,17 +265,18 @@
                 debug(tokens);
                 debug(pos);
                 debug(tokens[pos]);
-                throw new SyntaxError('Could not consume all tokens. '
-                    + 'Remaining tokens: ' + tokens.slice(pos, tokens.length));
+                throw new SyntaxError('Could not consume all tokens. ' +
+                                      'Remaining tokens: ' +
+                                      tokens.slice(pos, tokens.length));
             }
 
             return [ret, symbols];
-        }
+        };
     }();
     that.parse = parse;
 
 
-    var tokenize = function(str) {
+    function tokenize(str) {
         if ((! str) || WHITESPACE.test(str)) {
             return [];
         }
@@ -310,7 +307,7 @@
     }
     that.tokenize = tokenize;
 
-    var debug = function() {
+    function debug() {
         if (DEBUG && window.console && window.console.log) {
             console.log.apply(console, arguments);
         }
