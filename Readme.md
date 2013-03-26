@@ -1,6 +1,8 @@
-# Readme
+# [Truth Table Generator][generator]
 
-This simple JavaScript application generates [truth tables][tt] for arbitrary boolean logic expressions. The parser is quite primitive, so it requires each subexpression to be surrounded by parentheses. So `(a | b) | c` is fine, `a | b | c` isn't. It runs completely in the browser and requires no server side support.
+This simple JavaScript application generates [truth tables][tt] for arbitrary boolean logic expressions. The parser supports operator precendence.
+
+It runs completely in the browser and requires no server side support.
 
 Try it here: [http://mustpax.github.com/Truth-Table-Generator/][generator]
 
